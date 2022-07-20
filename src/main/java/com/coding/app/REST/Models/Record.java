@@ -12,23 +12,23 @@ public class Record {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "account_number")
+    @Column(name = "account_number", nullable = false)
     @CsvBindByPosition(position = 0)
     private Long accountNumber;
-    @Column(name = "operation_date")
+    @Column(name = "operation_date", nullable = false)
     @CsvDate(value = "yyyy-MM-dd HH:mm:ss")
     @CsvBindByPosition(position = 1)
     private LocalDateTime date;
-    @Column(name = "beneficiary")
+    @Column(name = "beneficiary", nullable = false)
     @CsvBindByPosition(position = 2)
     private String beneficiary;
     @Column(name = "comment")
     @CsvBindByPosition(position = 3)
     private String comment;
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     @CsvBindByPosition(position = 4)
     private double amount;
-    @Column(name = "currency")
+    @Column(name = "currency", nullable = false)
     @CsvBindByPosition(position = 5)
     private String currency;
 
