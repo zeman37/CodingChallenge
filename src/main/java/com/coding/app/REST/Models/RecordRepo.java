@@ -7,12 +7,13 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//Declaring RecordRepo interface as repository of "Record" where Integer acts as a primary key (id)
 @Repository
 public interface RecordRepo extends JpaRepository<Record, Integer> {
-    List<Record> findAll();
 
+    //Function which returns list of "Record" type entites where date is in between of provided dates.
     List<Record> findRecordsByDateBetween(LocalDateTime fromDate, LocalDateTime toDate);
-
+    //Native query which returns a double value of an specified account number balance in between of provided date
     @Query(value = "SELECT SUM(s.amount) FROM monetary_operations s WHERE s.account_number = :accNumber AND s.operation_date BETWEEN :fromDate AND :toDate", nativeQuery = true)
     double sumCreditAmount(@Param("accNumber") Long accNumber, @Param("fromDate") LocalDateTime fromDate, @Param("toDate") LocalDateTime toDate);
 }

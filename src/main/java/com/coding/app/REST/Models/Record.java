@@ -5,18 +5,22 @@ import com.opencsv.bean.CsvDate;
 import javax.persistence.*;
 import java.time.*;
 
+/*  Annotating Record class as an entity (which will be worked on). Also specifying main table for entities (in our case it's "monetary_operations")
+    Later on annotating each variable as a column with its name in the table, providing variable position in csv file, declaring whether it's nullable variable or not
+ */
+
 @Entity
 @Table(name = "monetary_operations")
 public class Record {
-    @Id
+    @Id //specifies that this variable will be primary id in the table
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //declaring id generation strategy
     private int id;
     @Column(name = "account_number", nullable = false)
     @CsvBindByPosition(position = 0)
     private Long accountNumber;
     @Column(name = "operation_date", nullable = false)
-    @CsvDate(value = "yyyy-MM-dd HH:mm:ss")
+    @CsvDate(value = "yyyy-MM-dd HH:mm:ss") //providing date format
     @CsvBindByPosition(position = 1)
     private LocalDateTime date;
     @Column(name = "beneficiary", nullable = false)
@@ -31,6 +35,8 @@ public class Record {
     @Column(name = "currency", nullable = false)
     @CsvBindByPosition(position = 5)
     private String currency;
+
+    //Generated constructors, getters and setters
 
     public Record(Long accountNumber, LocalDateTime date, String beneficiary, String comment, double amount, String currency) {
         this.accountNumber = accountNumber;
