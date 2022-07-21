@@ -16,4 +16,5 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
     //Native query which returns a double value of an specified account number balance in between of provided date
     @Query(value = "SELECT SUM(s.amount) FROM monetary_operations s WHERE s.account_number = :accNumber AND s.operation_date BETWEEN :fromDate AND :toDate", nativeQuery = true)
     double sumCreditAmount(@Param("accNumber") Long accNumber, @Param("fromDate") LocalDateTime fromDate, @Param("toDate") LocalDateTime toDate);
+    Record findRecordByIdIs(int id);
 }

@@ -33,8 +33,12 @@ public class RecordService {
         this.recordRepository = recordRepository;
     }
 
+    public RecordRepository getRecordRepository() {
+        return recordRepository;
+    }
+
     public String importCsv(MultipartFile file){
-        if(!file.isEmpty()){
+        if(!file.isEmpty()){ //checking if file is attached
             List<Record> records; //make an empty list of Record type to store records information from .csv file
             try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) { //Trying to read information from uploaded .csv file with Reader
                 CsvToBean<Record> csvReader = new CsvToBeanBuilder<Record>(reader).withType(Record.class).withSeparator(',').withIgnoreLeadingWhiteSpace(true).build(); //building CsvToBean reader of Record type with default .csv separator ',' and ignoring whitespace in front of data
@@ -49,7 +53,7 @@ public class RecordService {
                 return "Cannot insert records into database. Check .csv formatting, it should be: accountNumber,operationDate,beneficiary,comment(optional, leave blank if not needed),amount,currency"; //providing response and a .csv format
             }
         }
-        return "Empty file.";
+        return "Please attach file."; //returns response that file is not attached
     }
 
     public void exportCsv(HttpServletResponse response, LocalDateTime fromDate, LocalDateTime toDate) throws Exception{
