@@ -35,14 +35,18 @@ public class RecordController {
     public String importData(@RequestParam("file")MultipartFile file){
         List<Record> records;
         try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-            CsvToBean<Record> csvReader = new CsvToBeanBuilder(reader).withType(Record.class).withSeparator(',').withIgnoreLeadingWhiteSpace(true).build();
+            CsvToBean<Record> csvReader = new CsvToBeanBuilder<Record>(reader).withType(Record.class).withIgnoreLeadingWhiteSpace(true).build();
             records = csvReader.parse();
             service.saveAll(records);
             return "Upload Successful";
         } catch (IOException e) {
             e.printStackTrace();
             return "Error while processing CSV file";
-        } catch (DataIntegrityViolationException e){
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+            return "Error while processing file. Check it's type, it should be .csv";
+        }
+        catch (DataIntegrityViolationException e){
             e.printStackTrace();
             return "Cannot insert records into database. Check .csv formatting, it should be: accountNumber,operationDate,beneficiary,comment(optional, leave blank if not needed),amount,currency";
         }
@@ -53,7 +57,7 @@ public class RecordController {
     public void exportCSV(HttpServletResponse response,
                           @RequestParam(value="fromDate", required = false) @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime fromDate,
                           @RequestParam(value="toDate", required = false) @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime toDate) throws Exception {
-        String filename = "monetary.csv";
+        String filename = "monetary_operations.csv";
 
         fromDate = checkDate(fromDate,false);
         toDate = checkDate(toDate, true);
