@@ -1,4 +1,4 @@
-package com.coding.app.REST.Controller;
+package com.coding.app.REST.Service;
 
 import com.coding.app.REST.Models.Record;
 import com.coding.app.REST.Service.RecordService;
@@ -8,9 +8,13 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -21,6 +25,7 @@ import java.time.LocalDateTime;
 
 //RecordServiceTest class with @SpringBootTest annotation which marks that this is a testing class
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 class RecordServiceTest {
 
     //Autowiring an RecordService class which will be tested
