@@ -13,8 +13,8 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 
     //Function which returns list of "Record" type entities where date is in between of provided dates.
     List<Record> findRecordsByDateBetween(LocalDateTime fromDate, LocalDateTime toDate);
-    //Native query which returns a double value of an specified account number balance in between of provided date
+    //Native query which returns a double value of a specified account number balance in between of provided date
     @Query(value = "SELECT SUM(s.amount) FROM monetary_operations s WHERE s.account_number = :accNumber AND s.operation_date BETWEEN :fromDate AND :toDate", nativeQuery = true)
     double sumCreditAmount(@Param("accNumber") Long accNumber, @Param("fromDate") LocalDateTime fromDate, @Param("toDate") LocalDateTime toDate);
-    Record findRecordByIdIs(int id);
+    Record findTopByAccountNumberIsNotNull(); //function which returns first column with not null account number (required for testing)
 }
